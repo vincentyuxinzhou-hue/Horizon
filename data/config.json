@@ -1,0 +1,158 @@
+{
+  "version": "1.0",
+  "ai": {
+    "provider": "gemini",
+    "model": "gemini-2.0-flash",
+    "api_key_env": "GOOGLE_API_KEY",
+    "temperature": 0.3,
+    "max_tokens": 4096,
+    "throttle_sec": 0,
+    "analysis_concurrency": 3,
+    "enrichment_concurrency": 2
+  },
+  "sources": {
+    "hackernews": {
+      "enabled": true,
+      "fetch_top_stories": 25,
+      "min_score": 80
+    },
+    "rss": [
+      {
+        "name": "Reuters Business",
+        "url": "https://feeds.reuters.com/reuters/businessNews",
+        "enabled": true,
+        "category": "finance"
+      },
+      {
+        "name": "Bloomberg Markets",
+        "url": "https://feeds.bloomberg.com/markets/news.rss",
+        "enabled": true,
+        "category": "finance"
+      },
+      {
+        "name": "CNBC Top News",
+        "url": "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=100003114",
+        "enabled": true,
+        "category": "finance"
+      },
+      {
+        "name": "Financial Times",
+        "url": "https://www.ft.com/rss/home/uk",
+        "enabled": true,
+        "category": "finance"
+      },
+      {
+        "name": "WSJ Markets",
+        "url": "https://feeds.a.dj.com/rss/RSSMarketsMain.xml",
+        "enabled": true,
+        "category": "finance"
+      },
+      {
+        "name": "Yahoo Finance",
+        "url": "https://finance.yahoo.com/news/rssindex",
+        "enabled": true,
+        "category": "finance"
+      },
+      {
+        "name": "MarketWatch Top Stories",
+        "url": "https://feeds.marketwatch.com/marketwatch/topstories",
+        "enabled": true,
+        "category": "finance"
+      }
+    ],
+    "reddit": {
+      "enabled": true,
+      "subreddits": [
+        {
+          "subreddit": "investing",
+          "enabled": true,
+          "sort": "hot",
+          "time_filter": "day",
+          "fetch_limit": 15,
+          "min_score": 30
+        },
+        {
+          "subreddit": "stocks",
+          "enabled": true,
+          "sort": "hot",
+          "time_filter": "day",
+          "fetch_limit": 15,
+          "min_score": 20
+        },
+        {
+          "subreddit": "Economics",
+          "enabled": true,
+          "sort": "hot",
+          "time_filter": "day",
+          "fetch_limit": 10,
+          "min_score": 50
+        },
+        {
+          "subreddit": "finance",
+          "enabled": true,
+          "sort": "hot",
+          "time_filter": "day",
+          "fetch_limit": 10,
+          "min_score": 30
+        }
+      ],
+      "fetch_comments": 5
+    },
+    "gdelt": {
+      "enabled": true,
+      "query": "stock market OR central bank OR interest rate OR inflation OR trade war OR IPO OR M&A OR sanctions OR oil price OR gold price",
+      "mode": "ArtList",
+      "max_records": 50,
+      "timespan": "24h",
+      "language": null,
+      "country": null,
+      "category": "finance"
+    },
+    "google_news": {
+      "enabled": true,
+      "query": "global economy OR stock market OR central bank OR investment",
+      "language": "en",
+      "country": "US",
+      "ceid": null,
+      "max_results": 50,
+      "category": "finance"
+    }
+  },
+  "filtering": {
+    "ai_score_threshold": 5.0,
+    "time_window_hours": 24,
+    "max_items": 25,
+    "category_groups": {
+      "finance": {
+        "limit": 10,
+        "categories": [
+          "finance",
+          "equities",
+          "news"
+        ]
+      },
+      "tech": {
+        "limit": 8,
+        "categories": [
+          "ai-tools",
+          "ai-news",
+          "machine-learning",
+          "linux"
+        ]
+      }
+    },
+    "default_group": "other",
+    "default_group_limit": 5
+  },
+  "webhook": {
+    "enabled": true,
+    "url_env": "HORIZON_WEBHOOK_URL",
+    "delivery": "summary",
+    "overview_position": "first",
+    "platform": "feishu",
+    "layout": "collapsible",
+    "languages": [
+      "zh"
+    ]
+  }
+}
