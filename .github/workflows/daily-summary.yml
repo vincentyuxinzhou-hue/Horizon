@@ -27,6 +27,27 @@ jobs:
       - name: Install dependencies
         run: uv sync
 
+      - name: Verify Gemini API Key
+        env:
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+        run: |
+          echo "Testing Gemini API key (first 10 chars: ${GOOGLE_API_KEY:0:10}...)"
+          RESPONSE=$(curl -s -w "\n%{http_code}" \
+            "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GOOGLE_API_KEY}" \
+            -H 'Content-Type: application/json' \
+            -X POST \
+            -d '{"contents":[{"parts":[{"text":"Say OK"}]}]}')
+          HTTP_CODE=$(echo "$RESPONSE" | tail -1)
+          BODY=$(echo "$RESPONSE" | head -n -1)
+          echo "HTTP Status: $HTTP_CODE"
+          echo "Response body (first 500 chars): ${BODY:0:500}"
+          if [ "$HTTP_CODE" != "200" ]; then
+            echo "::error::Gemini API key test FAILED with HTTP $HTTP_CODE. Please check your GOOGLE_API_KEY secret."
+            exit 1
+          else
+            echo "✅ Gemini API key is valid and working."
+          fi
+
       - name: Run Horizon
         env:
           GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
