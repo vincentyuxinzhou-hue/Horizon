@@ -6,9 +6,9 @@
     "api_key_env": "GOOGLE_API_KEY",
     "temperature": 0.3,
     "max_tokens": 4096,
-    "throttle_sec": 0,
-    "analysis_concurrency": 3,
-    "enrichment_concurrency": 2,
+    "throttle_sec": 2,
+    "analysis_concurrency": 1,
+    "enrichment_concurrency": 1,
     "languages": [
       "zh",
       "en"
@@ -123,7 +123,7 @@
     }
   },
   "filtering": {
-    "ai_score_threshold": 4.0,
+    "ai_score_threshold": 3.0,
     "time_window_hours": 24,
     "max_items": 20,
     "category_groups": {
@@ -154,9 +154,32 @@
     "delivery": "summary",
     "overview_position": "first",
     "platform": "feishu",
-    "layout": "collapsible",
+    "layout": "markdown",
+    "fallback_layout": "markdown",
     "languages": [
       "zh"
-    ]
+    ],
+    "request_body": {
+      "msg_type": "interactive",
+      "card": {
+        "config": {
+          "wide_screen_mode": true
+        },
+        "header": {
+          "title": {
+            "tag": "plain_text",
+            "content": "#{message_title}"
+          },
+          "template": "blue"
+        },
+        "elements": [
+          {
+            "tag": "markdown",
+            "content": "#{summary}"
+          }
+        ]
+      }
+    },
+    "headers": ""
   }
 }
